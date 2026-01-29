@@ -1,7 +1,18 @@
+import { useState, useEffect } from 'react'
 import { Play, Image as ImageIcon, Video, ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Lottie from 'lottie-react'
 
 function App() {
+  const [animData, setAnimData] = useState(null)
+
+  useEffect(() => {
+    fetch('https://oejgkvftpbinliuopipr.supabase.co/storage/v1/object/public/assets/user_347995964/edit-lottie-1769681606.json?')
+      .then(r => r.json())
+      .then(setAnimData)
+      .catch(err => console.error('Failed to load animation:', err))
+  }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       {/* HEADER */}
@@ -65,7 +76,7 @@ function App() {
         </div>
       </section>
 
-      {/* GALLERY Section with User Media */}
+      {/* GALLERY Section with Lottie Animation */}
       <section id="gallery" className="py-20 px-6 bg-gradient-to-b from-transparent to-violet-950/10">
         <div className="container mx-auto">
           <motion.div
@@ -84,11 +95,42 @@ function App() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* User Photo 1 */}
+            {/* Lottie Animation Card */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="group relative bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-2xl border border-slate-800/50 hover:border-violet-600/50 transition-all transform hover:scale-105 hover:shadow-2xl"
+            >
+              <div className="bg-violet-600/10 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                <Play className="w-8 h-8 text-violet-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Интерактивная Анимация</h3>
+              <div className="relative rounded-xl overflow-hidden mb-4 bg-slate-800/30 flex items-center justify-center h-64">
+                {animData ? (
+                  <Lottie 
+                    animationData={animData} 
+                    loop 
+                    className="w-full h-full"
+                  />
+                ) : (
+                  <div className="text-slate-500 text-center p-8">
+                    <div className="w-12 h-12 border-4 border-violet-500/30 border-t-violet-500 rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-sm">Загрузка анимации...</p>
+                  </div>
+                )}
+              </div>
+              <p className="text-slate-400 leading-relaxed">
+                Современная Lottie анимация для создания динамичного и привлекательного контента
+              </p>
+            </motion.div>
+
+            {/* User Photo Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
               className="group relative bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-2xl border border-slate-800/50 hover:border-violet-600/50 transition-all transform hover:scale-105 hover:shadow-2xl"
             >
@@ -105,37 +147,6 @@ function App() {
               </div>
               <p className="text-slate-400 leading-relaxed">
                 Современные визуальные решения для вашего бренда
-              </p>
-            </motion.div>
-
-            {/* User Lottie Animation */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="group relative bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-2xl border border-slate-800/50 hover:border-violet-600/50 transition-all transform hover:scale-105 hover:shadow-2xl"
-            >
-              <div className="bg-violet-600/10 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
-                <Play className="w-8 h-8 text-violet-500" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Анимация</h3>
-              <div className="relative rounded-xl overflow-hidden mb-4 bg-slate-800/50 flex items-center justify-center h-64">
-                <div className="text-slate-500 text-center p-8">
-                  <Video className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                  <p className="text-sm">Lottie анимация</p>
-                  <a 
-                    href="https://oejgkvftpbinliuopipr.supabase.co/storage/v1/object/public/assets/user_347995964/user-lottie-2.lottie?" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-violet-400 hover:text-violet-300 text-sm underline mt-2 inline-block"
-                  >
-                    Открыть анимацию
-                  </a>
-                </div>
-              </div>
-              <p className="text-slate-400 leading-relaxed">
-                Динамичные анимации для привлечения внимания
               </p>
             </motion.div>
           </div>
